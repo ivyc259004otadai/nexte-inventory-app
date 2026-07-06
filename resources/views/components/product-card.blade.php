@@ -39,7 +39,7 @@ $statusTone = $product['status_tone'];
             <p class="product-card__footer-value product-card__footer-value--{{ $statusTone }}">+{{ $product['supplement_candidates'] }}点</p>
         </div>
 
-        <a href="{{ route('inventory.edit', ['inventory' => $product['inventory_id'], 'form' => 'dashboard']) }}" class="product-card__button">
+        <a href="{{ route('inventory.edit', ['inventory' => $product['inventory_id'], 'from' => 'dashboard']) }}" class="product-card__button">
             詳細を見る →
         </a>
     </div>
