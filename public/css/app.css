@@ -557,6 +557,12 @@ button {
     box-shadow: 0 12px 28px rgba(18, 31, 56, 0.05);
 }
 
+.form-card--narrow {
+    max-width: 960px;
+    margin: 0 auto;
+    width: 100%;
+}
+
 .table-card {
     overflow: hidden;
 }
