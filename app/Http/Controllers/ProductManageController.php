@@ -11,10 +11,12 @@ class ProductManageController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = Product::query()->withCount('variants');
+        $query = Product::query();
+        $query->withCount('variants');
 
         if ($request->filled('q')) {
             $keyword = $request->string('q')->trim()->toString();
+
             $query->where(function ($builder) use ($keyword): void {
                 $builder->where('product_code', 'like', "%{$keyword}%")
                     ->orWhere('product_name', 'like', "%{$keyword}%")
@@ -27,11 +29,18 @@ class ProductManageController extends Controller
         }
 
         if ($request->filled('status')) {
-            $query->where('is_active', $request->string('status')->toString() === 'active');
+            $query->where('status', $request->string('status')->toString());
         }
 
         $products = $query->orderBy('product_code')->get();
-        $categories = Product::query()->whereNotNull('category')->distinct()->orderBy('category')->pluck('category');
+
+        $categories = Product::query()
+            ->where('status', '!=', 'discontinued')
+            ->whereNotNull('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category');
+
         $latestUpdatedAt = $products->max('updated_at');
 
         return view('product-manage', [
@@ -46,14 +55,5 @@ class ProductManageController extends Controller
                 'status' => $request->string('status')->toString(),
             ],
         ]);
-    }
-
-    public function toggle(Product $product): RedirectResponse
-    {
-        $product->update(['is_active' => ! $product->is_active]);
-
-        return redirect()
-            ->route('product.manage')
-            ->with('success', '商品情報を更新しました');
     }
 }
