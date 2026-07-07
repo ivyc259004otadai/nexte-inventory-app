@@ -17,15 +17,8 @@ class Product extends Model
         'product_code',
         'product_name',
         'category',
-        'is_active',
+        'status',
     ];
-
-    protected function casts(): array
-    {
-        return [
-            'is_active' => 'boolean',
-        ];
-    }
 
     public function variants(): HasMany
     {
@@ -40,7 +33,7 @@ class Product extends Model
     public function stores(): BelongsToMany
     {
         return $this->belongsToMany(Store::class, 'store_products')
-            ->withPivot(['id', 'is_active'])
+            ->withPivot(['id', 'status'])
             ->withTimestamps();
     }
 }
