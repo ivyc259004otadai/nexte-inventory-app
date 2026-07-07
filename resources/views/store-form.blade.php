@@ -35,8 +35,9 @@
                 <div class="field-group">
                     <span>店舗状態</span>
                     <div class="radio-row">
-                        <label><input type="radio" name="is_active" value="1" @checked(old('is_active', (string) (int) ($store->is_active ?? true)) === '1')> 営業中</label>
-                        <label><input type="radio" name="is_active" value="0" @checked(old('is_active', (string) (int) ($store->is_active ?? true)) === '0')> 閉店扱い</label>
+                        <label><input type="radio" name="status" value="open" @checked(old('status', $store->status ?? 'open') === 'open')> 営業中</label>
+                        <label><input type="radio" name="status" value="suspended" @checked(old('status', $store->status ?? 'open') === 'suspended')> 休業</label>
+                        <label><input type="radio" name="status" value="closed" @checked(old('status', $store->status ?? 'open') === 'closed')> 閉店</label>
                     </div>
                 </div>
             </div>
