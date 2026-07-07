@@ -17,7 +17,7 @@ class StoreFormController extends Controller
                 'store_name' => ['required', 'string', 'max:20'],
                 'address' => ['nullable', 'string', 'max:50'],
                 'phone_number' => ['nullable', 'string', 'max:20'],
-                'is_active' => ['required', 'boolean'],
+                'status' => ['required', 'in:open,suspended,closed'],
             ]);
 
             $store = $store ?? new Store();
