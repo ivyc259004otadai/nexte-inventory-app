@@ -36,8 +36,9 @@
                 <div class="field-group">
                     <span>取扱状態</span>
                     <div class="radio-row">
-                        <label><input type="radio" name="is_active" value="1" @checked(old('is_active', (string) (int) ($product->is_active ?? true)) === '1')> 取扱中</label>
-                        <label><input type="radio" name="is_active" value="0" @checked(old('is_active', (string) (int) ($product->is_active ?? true)) === '0')> 取扱停止</label>
+                        <label><input type="radio" name="status" value="active" @checked(old('status', $product->status ?? 'active') === 'active')> 取扱中</label>
+                        <label><input type="radio" name="status" value="suspended" @checked(old('status', $product->status ?? 'active') === 'suspended')> 取扱停止</label>
+                        <label><input type="radio" name="status" value="discontinued" @checked(old('status', $product->status ?? 'active') === 'discontinued')> 販売終了</label>
                     </div>
                 </div>
             </div>
