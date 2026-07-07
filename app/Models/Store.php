@@ -18,15 +18,9 @@ class Store extends Model
         'store_name',
         'address',
         'phone_number',
-        'is_active',
+        'status',
     ];
 
-    protected function casts(): array
-    {
-        return [
-            'is_active' => 'boolean',
-        ];
-    }
 
     public function inventories(): HasMany
     {
@@ -41,7 +35,7 @@ class Store extends Model
     public function products(): BelongsToMany
     {
         return $this->belongsToMany(Product::class, 'store_products')
-            ->withPivot(['id', 'is_active'])
+            ->withPivot(['id', 'status'])
             ->withTimestamps();
     }
 }
