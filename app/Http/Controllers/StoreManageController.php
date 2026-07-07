@@ -12,7 +12,8 @@ class StoreManageController extends Controller
     public function index(Request $request): View
     {
         $query = Store::query();
-            ->where('status', '!=', 'closed');
+
+        $query->where('status', '!=', 'closed');
 
         if ($request->filled('q')) {
             $keyword = $request->string('q')->trim()->toString();
@@ -42,6 +43,4 @@ class StoreManageController extends Controller
             ],
         ]);
     }
-
-
 }
