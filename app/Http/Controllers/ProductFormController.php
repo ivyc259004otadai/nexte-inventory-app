@@ -16,7 +16,7 @@ class ProductFormController extends Controller
                 'product_code' => ['required', 'string', 'max:50'],
                 'product_name' => ['required', 'string', 'max:50'],
                 'category' => ['nullable', 'string', 'max:50'],
-                'is_active' => ['required', 'boolean'],
+                'status' => ['required', 'in:active,suspended,discontinued'],
             ]);
 
             $product = $product ?? new Product();
@@ -27,7 +27,11 @@ class ProductFormController extends Controller
                 ->with('success', $product->wasRecentlyCreated ? '商品情報を登録しました' : '商品情報を更新しました');
         }
 
-        $categories = Product::query()->whereNotNull('category')->distinct()->orderBy('category')->pluck('category');
+        $categories = Product::query()
+            ->whereNotNull('category')
+            ->distinct()
+            ->orderBy('category')
+            ->pluck('category');
 
         return view('product-form', [
             'sidebarCurrentPage' => 'product',
