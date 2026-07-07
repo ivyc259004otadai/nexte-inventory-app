@@ -36,8 +36,9 @@
         <label class="inventory-filter-select">
             <select name="status">
                 <option value="">店舗状態</option>
-                <option value="active" @selected($filters['status']==='active' )>営業中</option>
-                <option value="inactive" @selected($filters['status']==='inactive' )>閉店扱い</option>
+                <option value="open" @selected($filters['status']==='open' )>営業中</option>
+                <option value="suspended" @selected($filters['status']==='suspended' )>休業</option>
+                <option value="closed" @selected($filters['status']==='closed' )>閉店</option>
             </select>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 5h16l-6.5 7.4V18l-3 1.7v-7.3L4 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
@@ -70,17 +71,37 @@
                     <td>{{ $store->address ?? '-' }}</td>
                     <td>{{ $store->phone_number ?? '-' }}</td>
                     <td>
-                        <span class="inventory-status inventory-status--{{ $store->is_active ? 'A' : 'D' }}">
+                        @switch($store->status)
+                        @case('open')
+                        <span class="inventory-status inventory-status--A">
                             <span class="inventory-status__dot"></span>
-                            {{ $store->is_active ? '営業中' : '閉店扱い' }}
+                            営業中
                         </span>
+                        @break
+
+                        @case('suspended')
+                        <span class="inventory-status inventory-status--B">
+                            <span class="inventory-status__dot"></span>
+                            休業
+                        </span>
+                        @break
+
+                        @case('closed')
+                        <span class="inventory-status inventory-status--D">
+                            <span class="inventory-status__dot"></span>
+                            閉店
+                        </span>
+                        @break
+
+                        @default
+                        <span class="inventory-status inventory-status--D">
+                            <span class="inventory-status__dot"></span>
+                            未設定
+                        </span>
+                        @endswitch
                     </td>
-                    <td><a class="button-outline button-outline--blue" href="{{ route('store.form', $store) }}">編集</a></td>
                     <td>
-                        <form method="POST" action="{{ route('store.toggle', $store) }}">
-                            @csrf
-                            <button type="submit" class="button-outline button-outline--danger">{{ $store->is_active ? '閉店扱い' : '営業再開' }}</button>
-                        </form>
+                        <a class="button-outline button-outline--blue" href="{{ route('store.form', $store) }}">編集</a>
                     </td>
                 </tr>
                 @endforeach
