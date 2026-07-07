@@ -18,5 +18,4 @@ Route::post('/products/{product}/toggle', [ProductManageController::class, 'togg
 Route::match(['get', 'post'], '/products/form/{product?}', ProductFormController::class)->name('product.form');
 
 Route::get('/stores', [StoreManageController::class, 'index'])->name('store.manage');
-Route::post('/stores/{store}/toggle', [StoreManageController::class, 'toggle'])->name('store.toggle');
 Route::match(['get', 'post'], '/stores/form/{store?}', StoreFormController::class)->name('store.form');
