@@ -481,11 +481,11 @@ button {
 }
 
 .inventory-status--B {
-    color: var(--violet);
+    color: var(--warning);
 }
 
 .inventory-status--B .inventory-status__dot {
-    background: var(--violet);
+    background: var(--warning);
 }
 
 .inventory-table__action-cell {
@@ -833,7 +833,7 @@ button {
     box-shadow: 0 10px 24px rgba(18, 31, 56, 0.04);
 }
 
-.field-group input,
+.field-group input:not([type="radio"]),
 .field-group select {
     min-height: 46px;
     padding: 0 14px;
