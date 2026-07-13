@@ -48,7 +48,7 @@
             <select name="status">
                 <option value="">取扱状態</option>
                 <option value="active" @selected($filters['status']==='active' )>取扱中</option>
-                <option value="inactive" @selected($filters['status']==='inactive' )>取扱停止</option>
+                <option value="suspended" @selected($filters['status']==='suspended' )>取扱停止</option>
             </select>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 5h16l-6.5 7.4V18l-3 1.7v-7.3L4 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
@@ -70,7 +70,6 @@
                     <th>取扱状態</th>
                     <th>登録日</th>
                     <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -80,19 +79,26 @@
                     <td class="data-table__name">{{ $product->product_name }}</td>
                     <td><span class="pill">{{ $product->category ?? '-' }}</span></td>
                     <td>
-                        <span class="inventory-status inventory-status--{{ $product->is_active ? 'A' : 'D' }}">
+                        @switch($product->status)
+                        @case('active')
+                        <span class="inventory-status inventory-status--A">
                             <span class="inventory-status__dot"></span>
-                            {{ $product->is_active ? '取扱中' : '取扱停止' }}
+                            取扱中
                         </span>
+                        @break
+
+                        @case('suspended')
+                        <span class="inventory-status inventory-status--S">
+                            <span class="inventory-status__dot"></span>
+                            取扱停止
+                        </span>
+                        @break
+                        @endswitch
+
                     </td>
                     <td>{{ optional($product->created_at)->format('Y-m-d') }}</td>
                     <td><a class="button-outline button-outline--blue" href="{{ route('product.form', $product) }}">編集</a></td>
-                    <td>
-                        <form method="POST" action="{{ route('product.toggle', $product) }}">
-                            @csrf
-                            <button type="submit" class="button-outline button-outline--danger">{{ $product->is_active ? '取扱停止' : '再開' }}</button>
-                        </form>
-                    </td>
+
                 </tr>
                 @endforeach
             </tbody>
