@@ -45,6 +45,10 @@
             絞り込み
         </button>
 
+        <a class="button-primary button-primary--small" href="{{ route('product.manage') }}">
+            クリア
+        </a>
+
         <div class="inventory-toolbar__meta">
             <span class="inventory-toolbar__count">{{ $productCount }}件</span>
             <a class="button-primary button-primary--small" href="{{ route('product.form') }}">＋ 新規商品登録</a>
