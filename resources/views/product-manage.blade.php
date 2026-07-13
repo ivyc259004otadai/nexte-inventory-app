@@ -46,7 +46,7 @@
         </label>
         <label class="inventory-filter-select">
             <select name="status">
-                <option value="">取扱状態</option>
+                <option value="">すべて</option>
                 <option value="active" @selected($filters['status']==='active' )>取扱中</option>
                 <option value="suspended" @selected($filters['status']==='suspended' )>取扱停止</option>
             </select>
@@ -93,7 +93,7 @@
                         @break
 
                         @case('suspended')
-                        <span class="inventory-status inventory-status--S">
+                        <span class="inventory-status inventory-status--B">
                             <span class="inventory-status__dot"></span>
                             取扱停止
                         </span>
