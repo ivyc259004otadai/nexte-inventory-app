@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class ProductManageController extends Controller
@@ -13,6 +12,7 @@ class ProductManageController extends Controller
     {
         $query = Product::query();
         $query->withCount('variants');
+        $query->where('status', '!=', 'discontinued');
 
         if ($request->filled('q')) {
             $keyword = $request->string('q')->trim()->toString();
