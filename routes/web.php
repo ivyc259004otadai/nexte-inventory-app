@@ -14,7 +14,6 @@ Route::get('/inventory-list', InventoryListController::class)->name('inventory.l
 Route::match(['get', 'post'], '/inventory/{inventory}', InventoryEditController::class)->name('inventory.edit');
 
 Route::get('/products', [ProductManageController::class, 'index'])->name('product.manage');
-//Route::post('/products/{product}/toggle', [ProductManageController::class, 'toggle'])->name('product.toggle');
 Route::match(['get', 'post'], '/products/form/{product?}', ProductFormController::class)->name('product.form');
 
 Route::get('/stores', [StoreManageController::class, 'index'])->name('store.manage');
