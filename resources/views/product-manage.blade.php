@@ -54,6 +54,11 @@
                 <path d="M4 5h16l-6.5 7.4V18l-3 1.7v-7.3L4 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
             </svg>
         </label>
+
+        <button type="submit" class="button-primary button-primary--small">
+            絞り込み
+        </button>
+
         <div class="inventory-toolbar__meta">
             <span class="inventory-toolbar__count">{{ $productCount }}件</span>
             <a class="button-primary button-primary--small" href="{{ route('product.form') }}">＋ 新規商品登録</a>
