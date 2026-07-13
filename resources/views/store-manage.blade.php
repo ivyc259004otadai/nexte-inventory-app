@@ -35,15 +35,19 @@
         </label>
         <label class="inventory-filter-select">
             <select name="status">
-                <option value="">店舗状態</option>
+                <option value="">すべて</option>
                 <option value="open" @selected($filters['status']==='open' )>営業中</option>
                 <option value="suspended" @selected($filters['status']==='suspended' )>休業</option>
-                <option value="closed" @selected($filters['status']==='closed' )>閉店</option>
             </select>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                 <path d="M4 5h16l-6.5 7.4V18l-3 1.7v-7.3L4 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
             </svg>
         </label>
+
+        <button type="submit" class="button-primary button-primary--small">
+            絞り込み
+        </button>
+
         <div class="inventory-toolbar__meta">
             <span class="inventory-toolbar__count">{{ $storeCount }}件</span>
             <a class="button-primary button-primary--small" href="{{ route('store.form') }}">＋ 新規店舗登録</a>
