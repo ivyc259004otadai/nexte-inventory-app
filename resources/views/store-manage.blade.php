@@ -34,6 +34,10 @@
             絞り込み
         </button>
 
+        <a class="button-primary button-primary--small" href="{{ route('store.manage') }}">
+            クリア
+        </a>
+
         <div class="inventory-toolbar__meta">
             <span class="inventory-toolbar__count">{{ $storeCount }}件</span>
             <a class="button-primary button-primary--small" href="{{ route('store.form') }}">＋ 新規店舗登録</a>
