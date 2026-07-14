@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('product_code', 50)->unique();
             $table->string('product_name', 50);
             $table->string('category', 50)->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('status', 20)->default('active');
             $table->timestamps();
         });
     }
