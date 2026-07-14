@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('store_name', 20);
             $table->string('address', 50)->nullable();
             $table->string('phone_number', 20)->nullable();
-            $table->boolean('is_active')->default(true);
+            $table->string('status', 20)->default('open');
             $table->timestamps();
         });
     }
