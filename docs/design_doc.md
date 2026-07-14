@@ -159,7 +159,7 @@
 | product_code | VARCHAR(50) | 不可 | UNIQUE | なし | 品番（商品コード） |
 | product_name | VARCHAR(50) | 不可 |  | なし | 商品名 |
 | category | VARCHAR(50) | 可 |  | NULL | 商品カテゴリ |
-| is_active | TINYINT | 不可 |  | 1 | 1:取り扱い中 0:取り扱い停止 |
+| status | VARCHAR(20) | 不可 |  | 'active' | 'active':取り扱い中, 'suspended':取り扱い停止, 'discontinued':販売終了 |
 | created_at | TIMESTAMP | 可 |  | NULL | 登録日時 |
 | updated_at | TIMESTAMP | 可 |  | NULL | 更新日時 |
 
@@ -194,7 +194,7 @@
 | store_name | VARCHAR(20) | 不可 |  | なし | 店舗名 |
 | address | VARCHAR(50) | 可 |  | NULL | 店舗所在地 |
 | phone_number | VARCHAR(20) | 可 |  | NULL | 店舗電話番号 |
-| is_active | TINYINT | 不可 |  | 1 | 1：営業中 0：閉店 |
+| status | VARCHAR(20) | 不可 |  | 'active' | 'open':営業中, 'suspended':休業, 'closed':閉店 |
 | created_at | TIMESTAMP | 可 |  | NULL | 登録日時 |
 | updated_at | TIMESTAMP | 可 |  | NULL | 更新日時 |
 
@@ -230,7 +230,7 @@
 | id | BIGINT UNSIGNED | 不可 | PK | AUTO_INCREMENT | 取り扱い商品ID |
 | store_id | BIGINT UNSIGNED | 不可 | FK | なし | stores.idと紐づく |
 | product_id | BIGINT UNSIGNED | 不可 | FK | なし | products.idと紐づく |
-| is_active | TINYINT(4) | 可 |  | 1 | 1：取扱中、0：取扱停止 |
+| is_active | TINYINT(4) | 不可 |  | 1 | 1：取扱中、0：取扱停止 |
 | created_at | TIMESTAMP | 可 |  | NULL | 登録日時 |
 | updated_at | TIMESTAMP | 可 |  | NULL | 更新日時 |
 
