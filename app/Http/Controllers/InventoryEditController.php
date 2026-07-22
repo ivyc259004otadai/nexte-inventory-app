@@ -32,10 +32,18 @@ class InventoryEditController extends Controller
         $currentStock = (int) $inventory->current_stock;
         $requiredStock = (int) $inventory->required_stock;
         $weeklySales = (int) $inventory->weekly_sales;
+        $nextWeekSalesForecast = (int) ($inventory->next_week_sales_forecast ?? 0);
+
+        $necessaryStock = $nextWeekSalesForecast + $requiredStock;
         $weeks = $weeklySales > 0 ? $currentStock / $weeklySales : null;
-        $supplementCandidates = max($requiredStock - $currentStock, 0);
-        $difference = $currentStock - $requiredStock;
-        $status = $this->resolveStatus($currentStock, $requiredStock, $weeks);
+        $supplementCandidates = max($necessaryStock - $currentStock, 0);
+        $difference = $currentStock - $necessaryStock;
+
+        $status = $this->resolveStatus(
+            $currentStock,
+            $necessaryStock,
+            $weeks
+        );
 
         return view('inventory-edit', [
             'sidebarCurrentPage' => 'inventory',
@@ -52,17 +60,17 @@ class InventoryEditController extends Controller
         ]);
     }
 
-    private function resolveStatus(int $currentStock, int $requiredStock, ?float $weeks): array
+    private function resolveStatus(int $currentStock, int $necessaryStock, ?float $weeks): array
     {
         if ($currentStock === 0) {
             return ['status' => 'D', 'label' => 'D：欠品', 'tone' => 'danger'];
         }
 
-        if ($currentStock < $requiredStock || ($weeks !== null && $weeks < 1)) {
+        if ($currentStock < $necessaryStock || ($weeks !== null && $weeks < 1)) {
             return ['status' => 'C', 'label' => 'C：在庫過少', 'tone' => 'warning'];
         }
 
-        if ($currentStock > $requiredStock && $weeks !== null && $weeks >= 4) {
+        if ($currentStock > $necessaryStock && $weeks !== null && $weeks >= 4) {
             return ['status' => 'B', 'label' => 'B：在庫過多', 'tone' => 'violet'];
         }
 
