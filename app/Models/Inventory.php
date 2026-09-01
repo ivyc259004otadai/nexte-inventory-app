@@ -15,6 +15,7 @@ class Inventory extends Model
         'store_id',
         'current_stock',
         'required_stock',
+        'desired_order_quantity',
         'weekly_sales',
         'last_checked_at',
         'note',
@@ -25,6 +26,7 @@ class Inventory extends Model
         return [
             'current_stock' => 'integer',
             'required_stock' => 'integer',
+            'desired_order_quantity' => 'integer',
             'weekly_sales' => 'integer',
             'last_checked_at' => 'date',
         ];

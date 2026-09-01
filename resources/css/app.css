@@ -721,6 +721,48 @@ button {
     font-weight: 700;
 }
 
+.panel-card__status-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.panel-card__status-heading .panel-card__eyebrow {
+    margin: 0;
+}
+
+.order-entry-badge {
+    min-height: 30px;
+    margin-left: auto;
+    padding: 0 10px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.order-entry-badge svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+}
+
+.order-entry-badge--pending {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.order-entry-badge--done {
+    background: var(--success-soft);
+    color: var(--success);
+}
+
 .panel-card__title {
     margin: 0 0 18px;
     font-size: 1.35rem;

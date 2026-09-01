@@ -17,6 +17,7 @@ class InventoryEditController extends Controller
             $validated = $request->validate([
                 'current_stock' => ['required', 'integer', 'min:0'],
                 'required_stock' => ['required', 'integer', 'min:0'],
+                'desired_order_quantity' => ['required', 'integer', 'min:0'],
                 'weekly_sales' => ['required', 'integer', 'min:0'],
                 'last_checked_at' => ['nullable', 'date'],
                 'note' => ['nullable', 'string', 'max:255'],
@@ -38,6 +39,7 @@ class InventoryEditController extends Controller
 
         $weeks = $weeklySales > 0 ? $currentStock / $weeklySales : null;
         $supplementCandidates = max($requiredStock - $currentStock, 0);
+        $desiredOrderQuantity = $inventory->desired_order_quantity ?? $supplementCandidates;
         $difference = $currentStock - $requiredStock;
 
         $status = $this->resolveStatus(
@@ -53,6 +55,7 @@ class InventoryEditController extends Controller
             'difference' => $difference,
             'weeksText' => $weeks === null ? '算出不可' : number_format($weeks, 1) . '週',
             'supplementCandidates' => $supplementCandidates,
+            'desiredOrderQuantity' => $desiredOrderQuantity,
             'productName' => $inventory->productVariant?->product?->product_name ?? '-',
             'sku' => $inventory->productVariant?->sku ?? '-',
             'color' => $inventory->productVariant?->color ?? '-',
