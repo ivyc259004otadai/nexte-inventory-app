@@ -25,7 +25,10 @@ class InventoryEditController extends Controller
             $inventory->update($validated);
 
             return redirect()
-                ->route('inventory.edit', $inventory)
+                ->route('inventory.edit', [
+                    'inventory' => $inventory,
+                    'from' => $request->query('from'),
+                ])
                 ->with('success', '在庫情報を更新しました');
         }
 
