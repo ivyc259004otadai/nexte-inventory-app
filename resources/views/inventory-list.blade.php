@@ -59,6 +59,9 @@
         </label>
 
         <div class="inventory-toolbar__meta">
+            <button type="submit" class="button-primary button-primary--small">
+                絞り込み
+            </button>
             <span class="inventory-toolbar__count">{{ $inventoryCount }}件</span>
             <a class="inventory-toolbar__clear" href="{{ route('inventory.list') }}">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
