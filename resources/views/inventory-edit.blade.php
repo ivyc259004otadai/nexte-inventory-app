@@ -5,7 +5,7 @@
 @section('content')
 <section class="detail-page">
     <div class="detail-page__crumbs">
-        @if (request('form') === 'dashboard')
+        @if (request('from') === 'dashboard')
         <a href="{{ route('dashboard') }}">← 戻る</a>
         @else
         <a href="{{ route('inventory.list') }}">← 戻る</a>
@@ -109,7 +109,7 @@
                 <div class="form-actions">
                     <button type="submit" class="button-primary">変更を保存する</button>
 
-                    @if (request('form') === 'dashboard')
+                    @if (request('from') === 'dashboard')
                     <a class="button-secondary" href="{{ route('dashboard') }}">戻る</a>
                     @else
                     <a class="button-secondary" href="{{ route('inventory.list') }}">戻る</a>
