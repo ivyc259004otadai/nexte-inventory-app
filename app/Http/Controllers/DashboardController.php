@@ -90,6 +90,7 @@ class DashboardController extends Controller
             'weekly_sales' => $weeklySales,
             'difference' => $difference,
             'supplement_candidates' => $supplementCandidates,
+            'desired_order_quantity' => $inventory->desired_order_quantity,
             'weekly_stock_weeks' => $status['weeks_text'],
             'inventory_id' => $inventory->id,
         ];
