@@ -23,6 +23,20 @@ class InventoryEditController extends Controller
                 'note' => ['nullable', 'string', 'max:255'],
             ]);
 
+            $supplementCandidates = max(
+                (int) $validated['required_stock'] - (int) $validated['current_stock'],
+                0
+            );
+
+            if ((int) $validated['desired_order_quantity'] < $supplementCandidates) {
+                return back()
+                    ->withErrors([
+                        'desired_order_quantity' =>
+                        '補充候補数より少ない値は指定できません',
+                    ])
+                    ->withInput();
+            }
+
             $inventory->update($validated);
 
             return redirect()

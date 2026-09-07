@@ -16,7 +16,11 @@ class DashboardController extends Controller
 
         $productCards = $inventories
             ->map(fn(Inventory $inventory) => $this->formatInventory($inventory))
-            ->filter(fn(array $card) => in_array($card['status'], ['D', 'C'], true))
+            ->filter(
+                fn(array $card) =>
+                in_array($card['status'], ['D', 'C'], true)
+                    && $card['desired_order_quantity'] === null
+            )
             ->sortBy(fn(array $card) => sprintf('%02d-%06d-%s', $card['status_order'], $card['current_stock'], $card['sku']))
             ->values();
 

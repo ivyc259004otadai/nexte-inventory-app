@@ -53,24 +53,42 @@
                 <div class="panel-card__status-heading">
                     <p class="panel-card__eyebrow">在庫状態サマリー</p>
 
-                    @if ($inventory->desired_order_quantity === null)
-                    <span class="order-entry-badge order-entry-badge--pending">
+                    @php
+                    $savedDesiredOrderQuantity = $inventory->desired_order_quantity;
+
+                    $isDesiredOrderInsufficient =
+                    $difference < 0
+                        && $savedDesiredOrderQuantity !==null
+                        && (int) $savedDesiredOrderQuantity < $supplementCandidates;
+                        @endphp
+
+                        @if ($savedDesiredOrderQuantity===null)
+                        <span class="order-entry-badge order-entry-badge--pending">
                         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                             <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
                             <path d="M12 7v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
                             <path d="M12 17h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
                         </svg>
                         希望数未入力
-                    </span>
-                    @else
-                    <span class="order-entry-badge order-entry-badge--done">
-                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
-                            <path d="m8 12 2.5 2.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        希望数入力済（{{ $inventory->desired_order_quantity }}点）
-                    </span>
-                    @endif
+                        </span>
+                        @elseif ($isDesiredOrderInsufficient)
+                        <span class="order-entry-badge order-entry-badge--pending">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+                                <path d="M12 7v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                <path d="M12 17h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round" />
+                            </svg>
+                            希望数不足（{{ $savedDesiredOrderQuantity }}／{{ $supplementCandidates }}点）
+                        </span>
+                        @else
+                        <span class="order-entry-badge order-entry-badge--done">
+                            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2" />
+                                <path d="m8 12 2.5 2.5L16 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                            希望数入力済（{{ $savedDesiredOrderQuantity }}点）
+                        </span>
+                        @endif
                 </div>
                 <div class="status-hero">
                     <x-status-badge :status="$status['status']" :label="$status['label']" />
@@ -116,9 +134,14 @@
                         <span>発注希望数（補充候補：{{ $supplementCandidates }}点）</span>
                         <input
                             type="number"
-                            min="0"
+                            min="{{ $supplementCandidates }}"
+                            required
                             name="desired_order_quantity"
                             value="{{ old('desired_order_quantity', $desiredOrderQuantity) }}">
+
+                        @error('desired_order_quantity')
+                        <small class="is\danger">{{ $message }}</small>
+                        @enderror
                     </label>
                     <label class="field-group">
                         <span>週間販売数</span>
