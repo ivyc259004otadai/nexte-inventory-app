@@ -6,6 +6,7 @@ use App\Models\Inventory;
 use App\Models\Store;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class InventoryListController extends Controller
 {
@@ -57,7 +58,7 @@ class InventoryListController extends Controller
 
         $inventories = $query->get();
 
-        $inventoryRows = $inventories
+        $filteredRows = $inventories
             ->map(fn(Inventory $inventory) => $this->formatInventory($inventory))
             ->filter(function (array $row) use ($request): bool {
                 if (! $request->filled('status')) {
@@ -66,14 +67,35 @@ class InventoryListController extends Controller
 
                 return $row['status'] === $request->string('status')->toString();
             })
-            ->sortBy(fn(array $row) => sprintf('%02d-%s-%s', $row['status_order'], $row['store_name'], $row['sku']))
+            ->sortBy(fn(array $row) => sprintf(
+                '%02d-%02d-%s-%s',
+                $row['order_decision_order'],
+                $row['status_order'],
+                $row['store_name'],
+                $row['sku']
+            ))
             ->values();
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 10;
+
+        $inventoryRows = new LengthAwarePaginator(
+            $filteredRows->forPage($currentPage, $perPage)->values(),
+            $filteredRows->count(),
+            $perPage,
+            $currentPage,
+            [
+                'path' => $request->url(),
+            ]
+        );
+
+        $inventoryRows->withQueryString();
 
         $latestUpdatedAt = $inventories->max('updated_at');
 
         return view('inventory-list', [
             'sidebarCurrentPage' => 'inventory',
-            'inventoryCount' => $inventoryRows->count(),
+            'inventoryCount' => $filteredRows->count(),
             'lastUpdatedAt' => $latestUpdatedAt?->format('Y/m/d H:i') ?? now()->format('Y/m/d H:i'),
             'stores' => $stores,
             'categories' => $categories,
@@ -101,11 +123,38 @@ class InventoryListController extends Controller
         $status = $this->resolveStatus($currentStock, $requiredStock, $weeks);
         $difference = $currentStock - $requiredStock;
 
+        $supplementCandidates = max($requiredStock - $currentStock, 0);
+        $desiredOrderQuantity = $inventory->desired_order_quantity;
+
+        if ($desiredOrderQuantity === null) {
+            $orderDecision = [
+                'status' => 'pending',
+                'label' => '未',
+                'tone' => 'danger',
+                'order' => 0,
+            ];
+        } elseif ((int) $desiredOrderQuantity < $supplementCandidates) {
+            $orderDecision = [
+                'status' => 'insufficient',
+                'label' => '不足',
+                'tone' => 'warning',
+                'order' => 0,
+            ];
+        } else {
+            $orderDecision = [
+                'status' => 'completed',
+                'label' => '済',
+                'tone' => 'success',
+                'order' => 1,
+            ];
+        }
+
         return [
             'id' => $inventory->id,
             'status' => $status['status'],
             'status_label' => $status['label'],
             'status_tone' => $status['tone'],
+            'status_symbol' => $status['symbol'],
             'status_order' => $status['order'],
             'product_name' => $product?->product_name ?? '商品名未設定',
             'sku' => $productVariant?->sku ?? '-',
@@ -117,23 +166,29 @@ class InventoryListController extends Controller
             'weekly_sales' => $weeklySales,
             'difference' => $difference,
             'difference_label' => $difference > 0 ? '+' . $difference : (string) $difference,
+            'supplement_candidates' => $supplementCandidates,
+            'desired_order_quantity' => $desiredOrderQuantity,
+            'order_decision_status' => $orderDecision['status'],
+            'order_decision_label' => $orderDecision['label'],
+            'order_decision_tone' => $orderDecision['tone'],
+            'order_decision_order' => $orderDecision['order'],
         ];
     }
 
     private function resolveStatus(int $currentStock, int $requiredStock, ?float $weeks): array
     {
         if ($currentStock === 0) {
-            return ['status' => 'D', 'label' => '欠品', 'tone' => 'danger', 'order' => 0];
+            return ['status' => 'D', 'label' => '欠品', 'tone' => 'danger', 'symbol' => '×', 'order' => 0];
         }
 
         if ($currentStock < $requiredStock || ($weeks !== null && $weeks < 1)) {
-            return ['status' => 'C', 'label' => '在庫過少', 'tone' => 'warning', 'order' => 1];
+            return ['status' => 'C', 'label' => '在庫過少', 'tone' => 'warning', 'symbol' => '⚠', 'order' => 1];
         }
 
         if ($currentStock > $requiredStock && $weeks !== null && $weeks >= 4) {
-            return ['status' => 'B', 'label' => '在庫過多', 'tone' => 'violet', 'order' => 3];
+            return ['status' => 'B', 'label' => '在庫過多', 'tone' => 'violet', 'symbol' => '▲', 'order' => 3];
         }
 
-        return ['status' => 'A', 'label' => '適正在庫', 'tone' => 'success', 'order' => 2];
+        return ['status' => 'A', 'label' => '適正在庫', 'tone' => 'success', 'symbol' => '○', 'order' => 2];
     }
 }

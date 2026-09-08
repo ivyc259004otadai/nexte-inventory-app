@@ -63,6 +63,9 @@
                 絞り込み
             </button>
             <span class="inventory-toolbar__count">{{ $inventoryCount }}件</span>
+            <span class="inventory-toolbar__last-updated">
+                最終更新: {{ $lastUpdatedAt }}
+            </span>
             <a class="inventory-toolbar__clear" href="{{ route('inventory.list') }}">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M4 5h16l-6.5 7.4V18l-3 1.7v-7.3L4 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
@@ -76,9 +79,11 @@
         <div class="inventory-table-scroll">
             <table class="inventory-table">
                 <thead>
-                    <tr>
+                    <tr class="inventory-table__row">
+                        <th>優先度</th>
+                        <th>発注判断</th>
                         <th>商品名</th>
-                        <th>SKU</th>
+                        <th>品番</th>
                         <th>カラー</th>
                         <th>サイズ</th>
                         <th>店舗</th>
@@ -87,13 +92,80 @@
                         <th>週間販</th>
                         <th>差分</th>
                         <th>在庫状態</th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse ($inventoryRows as $row)
-                    <tr>
-                        <td class="inventory-table__name">{{ $row['product_name'] }}</td>
+                    <tr
+                        class="inventory-table__row"
+                        data-href="{{ route('inventory.edit', $row['id']) }}">
+
+                        <td class="inventory-table__priority">
+                            <span
+                                class="inventory-priority inventory-priority--{{ $row['status'] }}"
+                                aria-label="{{ $row['status_label'] }}">
+
+                                @switch($row['status'])
+                                @case('D')
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path
+                                        d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5"
+                                        stroke="currentColor"
+                                        stroke-width="2.6"
+                                        stroke-linecap="round" />
+                                </svg>
+                                @break
+
+                                @case('C')
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path
+                                        d="M12 5v9"
+                                        stroke="currentColor"
+                                        stroke-width="2.8"
+                                        stroke-linecap="round" />
+                                    <circle
+                                        cx="12"
+                                        cy="18"
+                                        r="1.5"
+                                        fill="currentColor" />
+                                </svg>
+                                @break
+
+                                @case('B')
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path
+                                        d="M12 4 3.5 19h17L12 4Z"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linejoin="round" />
+                                </svg>
+                                @break
+
+                                @default
+                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="8.5"
+                                        stroke="currentColor"
+                                        stroke-width="2" />
+                                </svg>
+                                @endswitch
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="order-decision order-decision--{{ $row['order_decision_tone'] }}">
+                                {{ $row['order_decision_label'] }}
+                            </span>
+                        </td>
+                        <td class="inventory-table__name">
+                            <a
+                                class="inventory-table__name-link"
+                                href="{{ route('inventory.edit', $row['id']) }}">
+                                {{ $row['product_name'] }}
+                            </a>
+                        </td>
                         <td class="inventory-table__sku">{{ $row['sku'] }}</td>
                         <td>{{ $row['color'] }}</td>
                         <td><span class="inventory-size-tag">{{ $row['size'] }}</span></td>
@@ -110,13 +182,10 @@
                                 {{ $row['status_label'] }}
                             </span>
                         </td>
-                        <td class="inventory-table__action-cell">
-                            <a class="inventory-detail-button" href="{{ route('inventory.edit', $row['id']) }}">詳細</a>
-                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="11">
+                        <td colspan="12">
                             <div class="inventory-empty">該当する在庫データがありません。</div>
                         </td>
                     </tr>

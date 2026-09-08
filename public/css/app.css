@@ -17,6 +17,10 @@
     --success-soft: #e6f8ef;
     --violet: #7c5cff;
     --violet-soft: #f0ebff;
+    --inventory-danger: #dc2626;
+    --inventory-shortage: #c0267e;
+    --inventory-overstock: #8b5cf6;
+    --inventory-good: #059669;
     --shadow: 0 18px 50px rgba(21, 35, 70, 0.08);
     --radius-lg: 28px;
     --radius-md: 22px;
@@ -415,19 +419,19 @@ button {
 }
 
 .inventory-table__stock--D {
-    color: var(--danger);
+    color: var(--inventory-danger);
 }
 
 .inventory-table__stock--C {
-    color: var(--warning);
+    color: var(--inventory-shortage);
 }
 
 .inventory-table__stock--B {
-    color: var(--violet);
+    color: var(--inventory-overstock);
 }
 
 .inventory-table__stock--A {
-    color: var(--success);
+    color: var(--inventory-good);
 }
 
 .inventory-table__diff {
@@ -435,11 +439,11 @@ button {
 }
 
 .inventory-table__diff--negative {
-    color: var(--danger);
+    color: var(--inventory-danger);
 }
 
 .inventory-table__diff--positive {
-    color: #7c3aed;
+    color: var(--inventory-good);
 }
 
 .inventory-status {
@@ -457,35 +461,35 @@ button {
 }
 
 .inventory-status--D {
-    color: var(--danger);
+    color: var(--inventory-danger);
 }
 
 .inventory-status--D .inventory-status__dot {
-    background: var(--danger);
+    background: var(--inventory-danger);
 }
 
 .inventory-status--C {
-    color: var(--warning);
+    color: var(--inventory-shortage);
 }
 
 .inventory-status--C .inventory-status__dot {
-    background: var(--warning);
+    background: var(--inventory-shortage);
 }
 
 .inventory-status--A {
-    color: var(--success);
+    color: var(--inventory-good);
 }
 
 .inventory-status--A .inventory-status__dot {
-    background: var(--success);
+    background: var(--inventory-good);
 }
 
 .inventory-status--B {
-    color: var(--warning);
+    color: var(--inventory-overstock);
 }
 
 .inventory-status--B .inventory-status__dot {
-    background: var(--warning);
+    background: var(--inventory-overstock);
 }
 
 .inventory-table__action-cell {
@@ -500,6 +504,88 @@ button {
     color: #2e5eff;
     font-size: 0.92rem;
     font-weight: 800;
+}
+
+.inventory-table__priority {
+    text-align: center;
+}
+
+.inventory-priority {
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.inventory-priority svg {
+    width: 22px;
+    height: 22px;
+}
+
+.inventory-priority--D {
+    color: var(--inventory-danger);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.inventory-priority--C {
+    color: var(--inventory-shortage);
+    background: #fce7f3;
+}
+
+.inventory-priority--B {
+    color: var(--inventory-overstock);
+    background: rgba(124, 58, 237, 0.1);
+}
+
+.inventory-priority--A {
+    color: var(--inventory-good);
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.order-decision {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.82rem;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.order-decision--danger {
+    color: var(--inventory-danger);
+    background: rgba(239, 68, 68, 0.1);
+}
+
+.order-decision--warning {
+    color: var(--inventory-shortage);
+    background: #fce7f3;
+}
+
+.order-decision--success {
+    color: var(--inventory-good);
+    background: rgba(16, 185, 129, 0.11);
+}
+
+.inventory-table__row {
+    cursor: pointer;
+}
+
+.inventory-table__row td {
+    transition:
+        background-color 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.inventory-table__row:hover td,
+.inventory-table__row:focus-within td {
+    background-color: #fff8ef;
+    box-shadow:
+        inset 0 1px 0 rgba(245, 158, 11, 0.12),
+        inset 0 -1px 0 rgba(245, 158, 11, 0.12);
 }
 
 .inventory-empty {
