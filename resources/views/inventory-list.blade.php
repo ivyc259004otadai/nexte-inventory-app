@@ -10,6 +10,9 @@
             <h1 class="inventory-header__title">在庫確認リスト</h1>
             <p class="inventory-header__description">全店舗・全商品の在庫状況を一覧で確認できます</p>
         </div>
+        <p class="inventory-header__last-updated">
+            最終更新: {{ $lastUpdatedAt }}
+        </p>
     </header>
 
     <form method="GET" class="inventory-toolbar">
@@ -21,7 +24,7 @@
             <input type="text" name="q" value="{{ $filters['q'] }}" placeholder="商品名・SKUで検索...">
         </label>
 
-        <label class="inventory-filter-select">
+        <label class="inventory-filter-select inventory-filter-select--store">
             <select name="store">
                 <option value="">店舗</option>
                 @foreach ($stores as $store)
@@ -33,7 +36,7 @@
             </svg>
         </label>
 
-        <label class="inventory-filter-select">
+        <label class="inventory-filter-select inventory-filter-select--status">
             <select name="status">
                 <option value="">在庫状態</option>
                 <option value="D" @selected($filters['status']==='D' )>欠品</option>
@@ -46,7 +49,7 @@
             </svg>
         </label>
 
-        <label class="inventory-filter-select">
+        <label class="inventory-filter-select inventory-filter-select--category">
             <select name="category">
                 <option value="">カテゴリ</option>
                 @foreach ($categories as $category)
@@ -58,28 +61,39 @@
             </svg>
         </label>
 
-        <div class="inventory-toolbar__meta">
+        <div class="inventory-toolbar__actions">
             <button type="submit" class="button-primary button-primary--small">
                 絞り込み
             </button>
-            <span class="inventory-toolbar__count">{{ $inventoryCount }}件</span>
-            <span class="inventory-toolbar__last-updated">
-                最終更新: {{ $lastUpdatedAt }}
-            </span>
             <a class="inventory-toolbar__clear" href="{{ route('inventory.list') }}">
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                     <path d="M4 5h16l-6.5 7.4V18l-3 1.7v-7.3L4 5Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" />
                 </svg>
                 フィルタークリア
             </a>
+            <span class="inventory-toolbar__count">{{ $inventoryCount }}件</span>
         </div>
     </form>
 
-    <section class="inventory-table-card" aria-label="在庫確認リスト一覧">
-        <div class="inventory-table-scroll">
-            <table class="inventory-table">
-                <thead>
-                    <tr class="inventory-table__row">
+    <section class="inventory-results" aria-label="在庫確認リスト一覧">
+        <div class="inventory-table-card">
+            <div class="inventory-table-scroll">
+                <table class="inventory-table">
+                    <colgroup>
+                        <col style="width: 7%">
+                        <col style="width: 8%">
+                        <col style="width: 18%">
+                        <col style="width: 17%">
+                        <col style="width: 8%">
+                        <col style="width: 6%">
+                        <col style="width: 8%">
+                        <col style="width: 8%">
+                        <col style="width: 8%">
+                        <col style="width: 7%">
+                        <col style="width: 7%">
+                    </colgroup>
+                    <thead>
+                        <tr class="inventory-table__row">
                         <th>優先度</th>
                         <th>発注判断</th>
                         <th>商品名</th>
@@ -91,10 +105,9 @@
                         <th>基準在庫</th>
                         <th>週間販</th>
                         <th>差分</th>
-                        <th>在庫状態</th>
-                    </tr>
-                </thead>
-                <tbody>
+                        </tr>
+                    </thead>
+                    <tbody>
                     @forelse ($inventoryRows as $row)
                     <tr
                         class="inventory-table__row"
@@ -176,22 +189,65 @@
                         <td class="inventory-table__diff {{ $row['difference'] >= 0 ? 'inventory-table__diff--positive' : 'inventory-table__diff--negative' }}">
                             {{ $row['difference_label'] }}
                         </td>
-                        <td>
-                            <span class="inventory-status inventory-status--{{ $row['status'] }}">
-                                <span class="inventory-status__dot" aria-hidden="true"></span>
-                                {{ $row['status_label'] }}
-                            </span>
-                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="12">
+                        <td colspan="11">
                             <div class="inventory-empty">該当する在庫データがありません。</div>
                         </td>
                     </tr>
                     @endforelse
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="inventory-results__footer">
+            <div class="inventory-legend" aria-label="優先度の凡例">
+                <span class="inventory-legend__title">優先度</span>
+                <span class="inventory-legend__item">
+                    <span class="inventory-legend__symbol inventory-legend__symbol--A" aria-hidden="true">○</span>
+                    適正在庫
+                </span>
+                <span class="inventory-legend__item">
+                    <span class="inventory-legend__symbol inventory-legend__symbol--B" aria-hidden="true">△</span>
+                    在庫過多
+                </span>
+                <span class="inventory-legend__item">
+                    <span class="inventory-legend__symbol inventory-legend__symbol--C" aria-hidden="true">!</span>
+                    在庫過少
+                </span>
+                <span class="inventory-legend__item">
+                    <span class="inventory-legend__symbol inventory-legend__symbol--D" aria-hidden="true">×</span>
+                    欠品
+                </span>
+            </div>
+
+            <nav class="inventory-pagination" aria-label="在庫一覧のページ送り">
+                @if ($inventoryRows->onFirstPage())
+                <span class="inventory-pagination__button is-disabled" aria-disabled="true">← 前へ</span>
+                @else
+                <a
+                    class="inventory-pagination__button"
+                    href="{{ $inventoryRows->previousPageUrl() }}">
+                    ← 前へ
+                </a>
+                @endif
+
+                <span class="inventory-pagination__status">
+                    {{ $inventoryRows->currentPage() }} / {{ $inventoryRows->lastPage() }}ページ
+                </span>
+
+                @if ($inventoryRows->hasMorePages())
+                <a
+                    class="inventory-pagination__button"
+                    href="{{ $inventoryRows->nextPageUrl() }}">
+                    次へ →
+                </a>
+                @else
+                <span class="inventory-pagination__button is-disabled" aria-disabled="true">次へ →</span>
+                @endif
+            </nav>
         </div>
     </section>
 </section>

@@ -89,6 +89,8 @@ class InventoryListController extends Controller
             ]
         );
 
+        $inventoryRows->appends($request->except('page'));
+
         $inventoryRows->withQueryString();
 
         $latestUpdatedAt = $inventories->max('updated_at');
