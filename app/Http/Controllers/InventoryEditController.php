@@ -15,7 +15,6 @@ class InventoryEditController extends Controller
 
         if ($request->isMethod('post')) {
             $validated = $request->validate([
-                'current_stock' => ['required', 'integer', 'min:0'],
                 'required_stock' => ['required', 'integer', 'min:0'],
                 'desired_order_quantity' => ['required', 'integer', 'min:0'],
                 'weekly_sales' => ['required', 'integer', 'min:0'],
@@ -24,7 +23,7 @@ class InventoryEditController extends Controller
             ]);
 
             $supplementCandidates = max(
-                (int) $validated['required_stock'] - (int) $validated['current_stock'],
+                (int) $validated['required_stock'] - (int) $inventory->current_stock,
                 0
             );
 

@@ -124,7 +124,7 @@
                 <div class="form-grid">
                     <label class="field-group">
                         <span>現在庫数</span>
-                        <input type="number" min="0" name="current_stock" value="{{ old('current_stock', $inventory->current_stock) }}">
+                        <input type="number" value="{{$inventory->current_stock}}" disabled>
                     </label>
                     <label class="field-group">
                         <span>基準在庫数</span>
