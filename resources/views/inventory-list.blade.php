@@ -94,117 +94,117 @@
                     </colgroup>
                     <thead>
                         <tr class="inventory-table__row">
-                        <th>優先度</th>
-                        <th>発注判断</th>
-                        <th>商品名</th>
-                        <th>品番</th>
-                        <th>カラー</th>
-                        <th>サイズ</th>
-                        <th>店舗</th>
-                        <th>現在庫</th>
-                        <th>基準在庫</th>
-                        <th>週間販</th>
-                        <th>差分</th>
+                            <th>在庫状態</th>
+                            <th>発注判断</th>
+                            <th>商品名</th>
+                            <th>品番</th>
+                            <th>カラー</th>
+                            <th>サイズ</th>
+                            <th>店舗</th>
+                            <th>現在庫</th>
+                            <th>基準在庫</th>
+                            <th>週間販</th>
+                            <th>差分</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @forelse ($inventoryRows as $row)
-                    <tr
-                        class="inventory-table__row"
-                        data-href="{{ route('inventory.edit', $row['id']) }}">
+                        @forelse ($inventoryRows as $row)
+                        <tr
+                            class="inventory-table__row"
+                            data-href="{{ route('inventory.edit', $row['id']) }}">
 
-                        <td class="inventory-table__priority">
-                            <span
-                                class="inventory-priority inventory-priority--{{ $row['status'] }}"
-                                aria-label="{{ $row['status_label'] }}">
+                            <td class="inventory-table__priority">
+                                <span
+                                    class="inventory-priority inventory-priority--{{ $row['status'] }}"
+                                    aria-label="{{ $row['status_label'] }}">
 
-                                @switch($row['status'])
-                                @case('D')
-                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path
-                                        d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5"
-                                        stroke="currentColor"
-                                        stroke-width="2.6"
-                                        stroke-linecap="round" />
-                                </svg>
-                                @break
+                                    @switch($row['status'])
+                                    @case('D')
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path
+                                            d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5"
+                                            stroke="currentColor"
+                                            stroke-width="2.6"
+                                            stroke-linecap="round" />
+                                    </svg>
+                                    @break
 
-                                @case('C')
-                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path
-                                        d="M12 5v9"
-                                        stroke="currentColor"
-                                        stroke-width="2.8"
-                                        stroke-linecap="round" />
-                                    <circle
-                                        cx="12"
-                                        cy="18"
-                                        r="1.5"
-                                        fill="currentColor" />
-                                </svg>
-                                @break
+                                    @case('C')
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path
+                                            d="M12 5v9"
+                                            stroke="currentColor"
+                                            stroke-width="2.8"
+                                            stroke-linecap="round" />
+                                        <circle
+                                            cx="12"
+                                            cy="18"
+                                            r="1.5"
+                                            fill="currentColor" />
+                                    </svg>
+                                    @break
 
-                                @case('B')
-                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <path
-                                        d="M12 4 3.5 19h17L12 4Z"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linejoin="round" />
-                                </svg>
-                                @break
+                                    @case('B')
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <path
+                                            d="M12 4 3.5 19h17L12 4Z"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                            stroke-linejoin="round" />
+                                    </svg>
+                                    @break
 
-                                @default
-                                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                    <circle
-                                        cx="12"
-                                        cy="12"
-                                        r="8.5"
-                                        stroke="currentColor"
-                                        stroke-width="2" />
-                                </svg>
-                                @endswitch
-                            </span>
-                        </td>
+                                    @default
+                                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                        <circle
+                                            cx="12"
+                                            cy="12"
+                                            r="8.5"
+                                            stroke="currentColor"
+                                            stroke-width="2" />
+                                    </svg>
+                                    @endswitch
+                                </span>
+                            </td>
 
-                        <td>
-                            <span class="order-decision order-decision--{{ $row['order_decision_tone'] }}">
-                                {{ $row['order_decision_label'] }}
-                            </span>
-                        </td>
-                        <td class="inventory-table__name">
-                            <a
-                                class="inventory-table__name-link"
-                                href="{{ route('inventory.edit', $row['id']) }}">
-                                {{ $row['product_name'] }}
-                            </a>
-                        </td>
-                        <td class="inventory-table__sku">{{ $row['sku'] }}</td>
-                        <td>{{ $row['color'] }}</td>
-                        <td><span class="inventory-size-tag">{{ $row['size'] }}</span></td>
-                        <td>{{ $row['store_name'] }}</td>
-                        <td class="inventory-table__stock inventory-table__stock--{{ $row['status'] }}">{{ $row['current_stock'] }}</td>
-                        <td>{{ $row['required_stock'] }}</td>
-                        <td>{{ $row['weekly_sales'] }}</td>
-                        <td class="inventory-table__diff {{ $row['difference'] >= 0 ? 'inventory-table__diff--positive' : 'inventory-table__diff--negative' }}">
-                            {{ $row['difference_label'] }}
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="11">
-                            <div class="inventory-empty">該当する在庫データがありません。</div>
-                        </td>
-                    </tr>
-                    @endforelse
+                            <td>
+                                <span class="order-decision order-decision--{{ $row['order_decision_tone'] }}">
+                                    {{ $row['order_decision_label'] }}
+                                </span>
+                            </td>
+                            <td class="inventory-table__name">
+                                <a
+                                    class="inventory-table__name-link"
+                                    href="{{ route('inventory.edit', $row['id']) }}">
+                                    {{ $row['product_name'] }}
+                                </a>
+                            </td>
+                            <td class="inventory-table__sku">{{ $row['sku'] }}</td>
+                            <td>{{ $row['color'] }}</td>
+                            <td><span class="inventory-size-tag">{{ $row['size'] }}</span></td>
+                            <td>{{ $row['store_name'] }}</td>
+                            <td class="inventory-table__stock inventory-table__stock--{{ $row['status'] }}">{{ $row['current_stock'] }}</td>
+                            <td>{{ $row['required_stock'] }}</td>
+                            <td>{{ $row['weekly_sales'] }}</td>
+                            <td class="inventory-table__diff {{ $row['difference'] >= 0 ? 'inventory-table__diff--positive' : 'inventory-table__diff--negative' }}">
+                                {{ $row['difference_label'] }}
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="11">
+                                <div class="inventory-empty">該当する在庫データがありません。</div>
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
 
         <div class="inventory-results__footer">
-            <div class="inventory-legend" aria-label="優先度の凡例">
-                <span class="inventory-legend__title">優先度</span>
+            <div class="inventory-legend" aria-label="在庫状態の凡例">
+                <span class="inventory-legend__title">在庫状態</span>
                 <span class="inventory-legend__item">
                     <span class="inventory-legend__symbol inventory-legend__symbol--A" aria-hidden="true">○</span>
                     適正在庫
