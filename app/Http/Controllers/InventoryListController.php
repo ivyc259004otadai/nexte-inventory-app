@@ -188,9 +188,9 @@ class InventoryListController extends Controller
         }
 
         if ($currentStock > $requiredStock && $weeks !== null && $weeks >= 4) {
-            return ['status' => 'B', 'label' => '在庫過多', 'tone' => 'violet', 'symbol' => '▲', 'order' => 3];
+            return ['status' => 'B', 'label' => '在庫過多', 'tone' => 'violet', 'symbol' => '▲', 'order' => 2];
         }
 
-        return ['status' => 'A', 'label' => '適正在庫', 'tone' => 'success', 'symbol' => '○', 'order' => 2];
+        return ['status' => 'A', 'label' => '適正在庫', 'tone' => 'success', 'symbol' => '○', 'order' => 3];
     }
 }

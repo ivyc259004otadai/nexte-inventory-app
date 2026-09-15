@@ -54,7 +54,6 @@
                     <th>電話番号</th>
                     <th>店舗状態</th>
                     <th></th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
