@@ -430,6 +430,11 @@ button {
     text-overflow: clip;
 }
 
+.inventory-table th:last-child,
+.inventory-table td:last-child {
+    padding-right: 20px;
+}
+
 .inventory-table tbody tr:last-child td {
     border-bottom: 0;
 }
@@ -781,6 +786,13 @@ a.inventory-pagination__button:hover {
     flex-wrap: wrap;
 }
 
+.list-toolbar .inventory-toolbar__meta {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
 .table-card,
 .form-card,
 .panel-card {
@@ -823,6 +835,12 @@ a.inventory-pagination__button:hover {
     border-bottom: 1px solid rgba(239, 243, 248, 1);
     white-space: nowrap;
     color: #2b3550;
+}
+
+.data-table__action-heading,
+.data-table__action-cell {
+    width: 1%;
+    text-align: center !important;
 }
 
 .data-table tbody tr:last-child td {

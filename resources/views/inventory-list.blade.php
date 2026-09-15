@@ -83,21 +83,21 @@
                         <col style="width: 7%">
                         <col style="width: 8%">
                         <col style="width: 18%">
-                        <col style="width: 17%">
-                        <col style="width: 8%">
-                        <col style="width: 6%">
-                        <col style="width: 8%">
+                        <col style="width: 11%">
                         <col style="width: 8%">
                         <col style="width: 8%">
                         <col style="width: 7%">
-                        <col style="width: 7%">
+                        <col style="width: 8%">
+                        <col style="width: 8%">
+                        <col style="width: 8%">
+                        <col style="width: 8%">
                     </colgroup>
                     <thead>
                         <tr class="inventory-table__row">
                             <th>在庫状態</th>
                             <th>発注判断</th>
                             <th>商品名</th>
-                            <th>品番</th>
+                            <th>商品コード</th>
                             <th>カラー</th>
                             <th>サイズ</th>
                             <th>店舗</th>
@@ -179,7 +179,7 @@
                                     {{ $row['product_name'] }}
                                 </a>
                             </td>
-                            <td class="inventory-table__sku">{{ $row['sku'] }}</td>
+                            <td class="inventory-table__product-code">{{ $row['product_code'] }}</td>
                             <td>{{ $row['color'] }}</td>
                             <td><span class="inventory-size-tag">{{ $row['size'] }}</span></td>
                             <td>{{ $row['store_name'] }}</td>

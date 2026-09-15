@@ -50,7 +50,6 @@
         </a>
 
         <div class="inventory-toolbar__meta">
-            <span class="inventory-toolbar__count">{{ $productCount }}件</span>
             <a class="button-primary button-primary--small" href="{{ route('product.form') }}">＋ 新規商品登録</a>
         </div>
     </form>
@@ -64,7 +63,7 @@
                     <th>カテゴリ</th>
                     <th>取扱状態</th>
                     <th>登録日</th>
-                    <th></th>
+                    <th class="data-table__action-heading">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -92,7 +91,7 @@
 
                     </td>
                     <td>{{ optional($product->created_at)->format('Y-m-d') }}</td>
-                    <td><a class="button-outline button-outline--blue" href="{{ route('product.form', $product) }}">編集</a></td>
+                    <td class="data-table__action-cell"><a class="button-outline button-outline--blue" href="{{ route('product.form', $product) }}">編集</a></td>
 
                 </tr>
                 @endforeach

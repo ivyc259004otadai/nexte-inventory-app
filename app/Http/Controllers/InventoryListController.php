@@ -159,6 +159,7 @@ class InventoryListController extends Controller
             'status_symbol' => $status['symbol'],
             'status_order' => $status['order'],
             'product_name' => $product?->product_name ?? '商品名未設定',
+            'product_code' => $product?->product_code ?? '-',
             'sku' => $productVariant?->sku ?? '-',
             'color' => $productVariant?->color ?? '-',
             'size' => $productVariant?->size ?? '-',

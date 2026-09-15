@@ -39,7 +39,6 @@
         </a>
 
         <div class="inventory-toolbar__meta">
-            <span class="inventory-toolbar__count">{{ $storeCount }}件</span>
             <a class="button-primary button-primary--small" href="{{ route('store.form') }}">＋ 新規店舗登録</a>
         </div>
     </form>
@@ -53,7 +52,7 @@
                     <th>所在地</th>
                     <th>電話番号</th>
                     <th>店舗状態</th>
-                    <th></th>
+                    <th class="data-table__action-heading">操作</th>
                 </tr>
             </thead>
             <tbody>
@@ -93,7 +92,7 @@
                         </span>
                         @endswitch
                     </td>
-                    <td>
+                    <td class="data-table__action-cell">
                         <a class="button-outline button-outline--blue" href="{{ route('store.form', $store) }}">編集</a>
                     </td>
                 </tr>
