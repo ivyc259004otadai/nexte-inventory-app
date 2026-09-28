@@ -27,7 +27,7 @@
                     <path d="M4 4h6v6H4V4Zm10 0h6v6h-6V4ZM4 14h6v6H4v-6Zm10 0h6v6h-6v-6Z" stroke="currentColor" stroke-width="1.7" />
                 </svg>
             </span>
-            <span>ダッシュボード</span>
+            <span>ダッシュ<br class="sidebar__tablet-break">ボード</span>
             <span class="sidebar__chevron" aria-hidden="true">›</span>
         </a>
 
@@ -69,7 +69,7 @@
     </nav>
 
     <div class="sidebar__footer">
-        <div class="sidebar__footer-label">現在の店舗</div>
+        <div class="sidebar__footer-label"><span>現在の</span><span>店舗</span></div>
         <div class="sidebar__footer-store">{{ $currentStore }}</div>
     </div>
 </aside>

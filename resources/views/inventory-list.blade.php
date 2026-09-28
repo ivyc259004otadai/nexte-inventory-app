@@ -6,9 +6,8 @@
 <section class="inventory-page">
     <header class="inventory-header">
         <div>
-            <p class="inventory-header__eyebrow">在庫確認リスト</p>
             <h1 class="inventory-header__title">在庫確認リスト</h1>
-            <p class="inventory-header__description">全店舗・全商品の在庫状況を一覧で確認できます</p>
+            <p class="inventory-header__description">表示対象 {{ $inventoryCount }} 件</p>
         </div>
         <p class="inventory-header__last-updated">
             最終更新: {{ $lastUpdatedAt }}
@@ -71,7 +70,6 @@
                 </svg>
                 フィルタークリア
             </a>
-            <span class="inventory-toolbar__count">{{ $inventoryCount }}件</span>
         </div>
     </form>
 
