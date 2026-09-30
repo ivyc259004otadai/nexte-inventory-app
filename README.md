@@ -1,59 +1,61 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Nexte｜在庫確認支援アプリ
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Nexteは、店舗ごとの在庫状況を確認し、補充が必要な商品を把握するためのWebアプリです。
+小売業での販売・在庫管理の経験をもとに、専門学校の授業で個人制作しています。
 
-## About Laravel
+日々の在庫確認を想定し、対応が必要な商品の見つけやすさと、確認から更新までの操作の流れを重視しました。
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+本アプリは、業務上の課題を整理し、設計と実装を学ぶための作品です。
+実際の店舗での導入実績はなく、実運用に必要な検証や運用体制の整備には至っていません。
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 制作の背景
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+小売業で販売や在庫管理に携わる中で、業務用のアプリやツールが作業の流れに合わず、確認や入力のために手が止まる場面を経験しました。
+この経験から、現場で必要な情報を把握しやすく、次の操作へ迷わず進める仕組みを作りたいと考え、在庫確認をテーマに選びました。
 
-## Learning Laravel
+制作では、在庫状況の確認から詳細の閲覧、数量の更新までの流れを中心に機能を絞りました。
+限られた制作期間の中で、実装する機能の優先順位を考えながら、画面構成やボタンの配置、表示する情報を見直しました。
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 主な機能
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **ダッシュボード**：在庫状況の概要を確認できます。
+- **在庫一覧**：店舗ごとの在庫を確認し、検索や絞り込み、在庫状況に応じた優先順での表示ができます。
+- **在庫詳細と更新**：商品の在庫数や希望発注数を確認し、更新できます。
+- **商品管理**：商品情報の一覧表示、登録、編集ができます。
+- **店舗管理**：店舗情報の一覧表示、登録、編集ができます。
 
-## Laravel Sponsors
+在庫状況は「適正」「過多」「過少」「欠品」の4区分で表示します。
+現在庫数、基準在庫数、週間販売数を用いて、在庫確認の判断を補助します。
+希望発注数の入力は、実際の発注処理や外部システムへの送信を行うものではありません。
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 設計や操作性で工夫した点
 
-### Premium Partners
+### 在庫確認から更新までの流れ
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+在庫の概要を把握し、一覧から対象の商品を探して、詳細画面で数量を更新する流れを中心に画面を構成しました。
+対応が必要な商品を見つけやすくするため、在庫状況に応じた優先順での表示や検索、絞り込みを取り入れました。
 
-## Contributing
+### 表示する情報と操作の配置
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+現場での確認作業を想定し、ボタンの位置や表示項目、画面間の移動を繰り返し見直しました。
+横向きのタブレットでの利用を意識し、一覧表や操作ボタンの配置も調整しました。
 
-## Code of Conduct
+### 実装する機能の優先順位
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+制作期間と学習段階を踏まえ、在庫確認に必要な機能を優先しました。
+当初検討していた需要予測は実装範囲から外し、現在庫数と基準在庫数、週間販売数を用いた確認支援に絞りました。
 
-## Security Vulnerabilities
+## 使用技術
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- PHP / Laravel
+- MariaDB
+- Blade / HTML / CSS
+- Git / GitHub
 
-## License
+## 開発状況と課題
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+授業での個人制作として、在庫の確認と更新を中心に実装しています。
+実際の店舗への導入や、実業務での効果検証は行っていません。
+
+実運用に向けては、認証と権限管理、入力やデータの整合性、セキュリティ、バックアップなどの確認と整備が必要です。
+在庫判定や補充数は学習用に設定したルールに基づくもので、実際の発注判断には業務に応じた検証が必要です。
