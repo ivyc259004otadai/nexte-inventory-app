@@ -16,6 +16,11 @@ class InventoryListController extends Controller
             ->with(['productVariant.product', 'store']);
 
         $stores = Store::query()->orderBy('store_name')->get();
+        $selectedStoreCode = $request->string('store')->toString();
+        $displayScope = $selectedStoreCode === ''
+            ? '全店舗'
+            : ($stores->firstWhere('store_code', $selectedStoreCode)?->store_name ?? '該当店舗なし');
+
         $categories = Inventory::query()
             ->with('productVariant.product')
             ->get()
@@ -97,6 +102,7 @@ class InventoryListController extends Controller
 
         return view('inventory-list', [
             'sidebarCurrentPage' => 'inventory',
+            'displayScope' => $displayScope,
             'inventoryCount' => $filteredRows->count(),
             'lastUpdatedAt' => $latestUpdatedAt?->format('Y/m/d H:i') ?? now()->format('Y/m/d H:i'),
             'stores' => $stores,

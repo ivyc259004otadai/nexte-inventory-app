@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
-use App\Models\Store;
 use Illuminate\Contracts\View\View;
 
 class DashboardController extends Controller
@@ -33,7 +32,7 @@ class DashboardController extends Controller
         $latestUpdatedAt = $inventories->max('updated_at');
 
         return view('dashboard', [
-            'currentStoreName' => Store::query()->oldest('id')->value('store_name') ?? '渋谷店',
+            'displayScope' => '全店舗',
             'inventoryCount' => $inventories->count(),
             'lastUpdatedAt' => $latestUpdatedAt?->format('Y/m/d H:i') ?? now()->format('Y/m/d H:i'),
             'summaryCards' => [

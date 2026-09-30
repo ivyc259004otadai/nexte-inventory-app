@@ -11,7 +11,7 @@
 
 <body class="app-shell">
     <div class="app-layout">
-        <x-sidebar :current-store="$currentStoreName ?? '渋谷店'" :current-page="$sidebarCurrentPage ?? 'dashboard'" />
+        <x-sidebar :display-scope="$displayScope ?? '全店舗'" :current-page="$sidebarCurrentPage ?? 'dashboard'" />
 
         <main class="app-content">
             @yield('content')

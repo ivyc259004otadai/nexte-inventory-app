@@ -1,5 +1,5 @@
 @props([
-'currentStore' => '渋谷店',
+'displayScope' => '全店舗',
 'currentPage' => 'dashboard',
 ])
 
@@ -69,7 +69,7 @@
     </nav>
 
     <div class="sidebar__footer">
-        <div class="sidebar__footer-label"><span>現在の</span><span>店舗</span></div>
-        <div class="sidebar__footer-store">{{ $currentStore }}</div>
+        <div class="sidebar__footer-label"><span>表示</span><span>範囲：</span></div>
+        <div class="sidebar__footer-store">{{ $displayScope }}</div>
     </div>
 </aside>
