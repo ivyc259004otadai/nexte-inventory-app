@@ -12,14 +12,13 @@ Nexteは、店舗ごとの在庫状況を確認し、補充が必要な商品を
 ## 画面イメージ
 
 ### ダッシュボード
-![ダッシュボード](./Nexte_ダッシュボード画面.png)
+<img width="1917" height="970" alt="Nexte_ダッシュボード画面" src="https://github.com/user-attachments/assets/824ddfaf-fbbb-452b-9333-530e1eba657f" />
 
 ### 在庫確認リスト
-![在庫確認リスト](./Nexte_在庫確認リスト画面.png)
+<img width="1917" height="970" alt="Nexte_在庫確認リスト画面" src="https://github.com/user-attachments/assets/0bf0c074-1196-4dcd-8b6e-c98046e14c06" />
 
 ### 在庫詳細・編集
-![在庫編集画面](./Nexte_在庫編集画面.png)
-
+<img width="1917" height="968" alt="Nexte_在庫編集画面" src="https://github.com/user-attachments/assets/8d3291fc-44da-4cf7-8c63-378a51c13abd" />
 
 ## 制作の背景
 
